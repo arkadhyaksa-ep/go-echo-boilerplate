@@ -26,9 +26,8 @@ jobs:
       
       - name: Configure docker client of gcloud
         run:  |-
-          gcloud auth configure-docker 
-          gcloud auth configure-docker asia-south2-docker.pkg.dev 
-      
+          gcloud auth configure-docker \ asia-southeast2-docker.pkg.dev 
+          
       - name: Push Docker Image to Artifact Registry 
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
