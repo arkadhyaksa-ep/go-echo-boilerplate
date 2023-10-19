@@ -45,7 +45,6 @@ jobs:
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
         run: |-
-          sed -i "s/GOOGLE_PROJECT/$PROJECT_ID/g" deployment.yaml
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
 
