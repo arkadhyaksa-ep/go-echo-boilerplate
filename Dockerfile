@@ -3,8 +3,8 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY *.go ./
-RUN go test -v ./...
 RUN CGO_ENABLED=0 GOOS=linux go build -o /echo-boilerplate-app
+RUN go test -v ./...
 
 FROM gcr.io/distroless/base-debian11
 WORKDIR /
