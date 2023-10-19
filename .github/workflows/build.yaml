@@ -17,6 +17,7 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           service_account: 'github-actions@seeds-test-402504.iam.gserviceaccount.com'
+          credentials_json: '${{ secrets.JSON_KEY }}'
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
