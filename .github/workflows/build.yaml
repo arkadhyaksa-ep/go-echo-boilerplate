@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - id: auth
+      - id: Auth
         uses: google-github-actions/auth@v1
         with:
           credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
   
-      - name: build Docker Image
+      - name: Build Docker Image
         run: docker build -t echo-boilerplate-app:latest .
       
       - name: Configure docker client of gcloud
@@ -33,7 +33,7 @@ jobs:
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
         run:  |-
-          docker tag echo-boilerplate-app:latest asia-south1-docker.pkg.dev/$PROJECT_ID/images/echo-boilerplate-app:latest
+          docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/$PROJECT_ID/go-image-repository/echo-boilerplate-app:latest
           docker push asia-southeast2-docker.pkg.dev/$PROJECT_ID/go-image-repository/echo-boilerplate-app:latest
 
         
