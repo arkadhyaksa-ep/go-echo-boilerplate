@@ -15,6 +15,7 @@ jobs:
 
       - id: Auth
         uses: google-github-actions/auth@v1
+<<<<<<< HEAD
         with:
           credentials_json: '${{ secrets.JSON_KEY }}'
 
@@ -22,17 +23,29 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           install_components: 'gke-cloud-auth-plugin'
+=======
+        with:
+          credentials_json: '${{ secrets.JSON_KEY }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+>>>>>>> c9fd134b1c65e6d330078b70478ac1104b202694
   
       - name: Build Docker Image
         run: docker build -t echo-boilerplate-app:latest .
       
       - name: Configure docker client of gcloud
+<<<<<<< HEAD
         run: |-
+=======
+        run:  |-
+>>>>>>> c9fd134b1c65e6d330078b70478ac1104b202694
           gcloud auth configure-docker asia-southeast2-docker.pkg.dev 
           
       - name: Push Docker Image to Artifact Registry 
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
+<<<<<<< HEAD
         run: |-
           docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
           docker push asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
@@ -47,4 +60,11 @@ jobs:
           kubectl apply -f service.yaml
 
 
+=======
+        run:  |-
+          docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
+          docker push asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
+
+        
+>>>>>>> c9fd134b1c65e6d330078b70478ac1104b202694
     
