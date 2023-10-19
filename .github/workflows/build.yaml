@@ -13,19 +13,38 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: install the gcloud cli
+      - id: Auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.JSON_KEY }}'
+
+      - name: Set up Cloud CLI and install kubernetes plugin
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GOOGLE_PROJECT }}
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          export_default_credentials: true
-
-      - name: build and push the docker image
+          install_components: 'gke-cloud-auth-plugin'
+  
+      - name: Build Docker Image
+        run: docker build -t echo-boilerplate-app:latest .
+      
+      - name: Configure docker client of gcloud
+        run: |-
+          gcloud auth configure-docker asia-southeast2-docker.pkg.dev 
+          
+      - name: Push Docker Image to Artifact Registry 
         env:
-          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
-        run: |
-          gcloud auth configure-docker asia-southeast2-docker.pkg.dev
-          docker build -t asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app .
-          docker push asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app
-        
+          PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
+        run: |-
+          docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
+          docker push asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
+
+      - name: Deploy to Google Kubernetes Engine
+        env:
+          PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
+        run: |-
+          gcloud container clusters get-credentials golang-echo-cluster --region asia-southeast2
+          sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" deployment.yaml
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
+
+
     
