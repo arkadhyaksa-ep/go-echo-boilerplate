@@ -8,5 +8,5 @@ spec:
     app: echo-boilerplate-app
   ports:
   - port: 1200
-    targetPort: 8080
+    targetPort: 1200
 ---
