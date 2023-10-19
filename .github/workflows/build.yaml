@@ -13,19 +13,28 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install the gcloud cli
-        uses: google-github-actions/setup-gcloud@v1
+      - id: auth
+        uses: google-github-actions/auth@v1
         with:
-          project_id: ${{ secrets.GOOGLE_PROJECT }}
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          export_default_credentials: true
+          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
 
-      - name: Build and push the docker image
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+  
+      - name: build Docker Image
+        run: docker build -t echo-boilerplate-app:latest .
+      
+      - name: Configure docker client of gcloud
+        run:  |-
+          gcloud auth configure-docker 
+          gcloud auth configure-docker asia-south2-docker.pkg.dev 
+      
+      - name: Push Docker Image to Artifact Registry 
         env:
-          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
-        run: |
-          gcloud auth configure-docker asia-southeast2-docker.pkg.dev
-          docker build -t asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app .
-          docker push asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app
+          PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
+        run:  |-
+          docker tag echo-boilerplate-app:latest asia-south1-docker.pkg.dev/$PROJECT_ID/images/echo-boilerplate-app:latest
+          docker push asia-southeast2-docker.pkg.dev/$PROJECT_ID/go-image-repository/echo-boilerplate-app:latest
+
         
     
