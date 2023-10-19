@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: echo-boilerplate-app
-        image: asia-southeast2-docker.pkg.dev/GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app:latest
+        image: asia-southeast2-docker.pkg.dev/PROJECT_ID/go-image-repository/echo-boilerplate-app:latest
         ports:
         - containerPort: 1200
         env:
