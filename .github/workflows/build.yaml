@@ -25,7 +25,7 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
           gcloud auth configure-docker asia-southeast2-docker.pkg.dev
-          docker build -t asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app:latest .
-          docker push asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app:latest
+          docker build -t asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app .
+          docker push asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app
         
     
