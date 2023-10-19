@@ -2,31 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: echo-boilerplate-app
+  labels:
+    app: echo-boilerplate-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: echo
+      app: echo-boilerplate-app
   template:
     metadata:
       labels:
-        app: echo
+        app: echo-boilerplate-app
     spec:
       containers:
       - name: echo-boilerplate-app
-        image: asia-southeast2-docker.pkg.dev/GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app:latest
+        image: asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
         ports:
         - containerPort: 1200
-        env:
-          - name: PORT
-            value: "1200"
-        resources:
-          requests:
-            memory: "1Gi"
-            cpu: "500m"
-            ephemeral-storage: "1Gi"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
-            ephemeral-storage: "1Gi"
 ---
