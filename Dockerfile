@@ -1,20 +1,13 @@
 FROM golang:latest AS build
+
 WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
-
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY . .
+COPY *.go ./
 
-RUN go build -o echo-boilerplate-app
-
-FROM alpine:latest
-
-WORKDIR /app
-
-COPY --from=build /app/echo-boilerplate-app .
+RUN CGO_ENABLED=0 GOOS=linux go build -o /echo-boilerplate-app
 
 EXPOSE 1200
 
