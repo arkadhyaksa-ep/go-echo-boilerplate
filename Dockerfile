@@ -1,7 +1,7 @@
 FROM golang:1.21.0 as build
 WORKDIR /app
 COPY go.mod go.sum ./
-RUN go mod donwload
+RUN go mod download
 COPY *.go ./
 RUN go test -v ./...
 RUN CGO_ENABLED=0 GOOS=linux go build -o /echo-boilerplate-app
