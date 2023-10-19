@@ -18,10 +18,8 @@ jobs:
         with:
           credentials_json: '${{ secrets.JSON_KEY }}'
 
-      - name: Set up Cloud CLI and install kubernetes plugin
+      - name: Set up Cloud CLI
         uses: google-github-actions/setup-gcloud@v1
-        with:
-          install_components: 'gke-cloud-auth-plugin'
   
       - name: Build Docker Image
         run: docker build -t echo-boilerplate-app:latest .
@@ -37,11 +35,16 @@ jobs:
           docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
           docker push asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
 
+      - id: 'get-credentials'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+          cluster_name: 'golang-echo-cluster'
+          location: 'asia-southeast2'
+
       - name: Deploy to Google Kubernetes Engine
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
         run: |-
-          gcloud container clusters get-credentials golang-echo-cluster --region asia-southeast2
           sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" deployment.yaml
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
