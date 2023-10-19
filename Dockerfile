@@ -1,14 +1,14 @@
-FROM golang:latest AS build
-
+FROM golang:1.21.0 as build
 WORKDIR /app
-
 COPY go.mod go.sum ./
-RUN go mod download
-
+RUN go mod donwload
 COPY *.go ./
+RUN go test -v ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -o /echo-boilerplate-app
 
-RUN go build -o /echo-boilerplate-app
-
-EXPOSE 1200
-
-CMD ["./echo-boilerplate-app"]
+FROM gcr.io/distroless/base-debian11
+WORKDIR /
+COPY --from=build /echo-boilerplate-appp /echo-boilerplate-app
+ENV PORT 1200
+USER nonroot:nonroot
+CMD [/echo-boilerplate-app]
