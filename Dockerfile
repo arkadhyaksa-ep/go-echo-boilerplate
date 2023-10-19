@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY *.go ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /echo-boilerplate-app
+RUN go build -o /echo-boilerplate-app
 
 EXPOSE 1200
 
