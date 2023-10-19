@@ -18,5 +18,4 @@ COPY --from=build /app/echo-boilerplate-app .
 
 EXPOSE 1200
 
-# Command to run the Go application.
 CMD ["./echo-boilerplate-app"]
