@@ -32,8 +32,8 @@ jobs:
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
         run:  |-
-          docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/$PROJECT_ID/go-image-repository/echo-boilerplate-app:latest
-          docker push asia-southeast2-docker.pkg.dev/$PROJECT_ID/go-image-repository/echo-boilerplate-app:latest
+          docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
+          docker push asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
 
         
     
