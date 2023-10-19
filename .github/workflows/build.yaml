@@ -13,18 +13,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: install the gcloud cli
+      - name: Install the gcloud cli
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           export_default_credentials: true
 
-      - name: build and push the docker image
+      - name: Build and push the docker image
         env:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
-          gcloud auth login
           gcloud auth configure-docker asia-southeast2-docker.pkg.dev
           docker build -t asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app .
           docker push asia-southeast2-docker.pkg.dev/$GOOGLE_PROJECT/go-image-repository/echo-boilerplate-app
