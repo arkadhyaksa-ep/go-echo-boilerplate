@@ -16,7 +16,6 @@ jobs:
       - id: Auth
         uses: google-github-actions/auth@v1
         with:
-          service_account: 'github-actions@seeds-test-402504.iam.gserviceaccount.com'
           credentials_json: '${{ secrets.JSON_KEY }}'
 
       - name: Set up Cloud SDK
@@ -27,13 +26,12 @@ jobs:
       
       - name: Configure docker client of gcloud
         run:  |-
-          gcloud auth configure-docker \ asia-southeast2-docker.pkg.dev 
+          gcloud auth configure-docker asia-southeast2-docker.pkg.dev 
           
       - name: Push Docker Image to Artifact Registry 
         env:
           PROJECT_ID: '${{ secrets.GOOGLE_PROJECT }}'
         run:  |-
-          docker tag echo-boilerplate-app:latest asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
           docker push asia-southeast2-docker.pkg.dev/seeds-test-402504/go-image-repository/echo-boilerplate-app:latest
 
         
