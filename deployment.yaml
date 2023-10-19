@@ -31,4 +31,5 @@ spec:
             memory: "1Gi"
             cpu: "500m"
             ephemeral-storage: "1Gi"
+            
 ---
