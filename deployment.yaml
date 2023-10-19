@@ -2,17 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: echo-boilerplate-app
-  labels:
-    app: echo-boilerplate-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: echo-boilerplate-app
+      app: echo
   template:
     metadata:
       labels:
-        app: echo-boilerplate-app
+        app: echo
     spec:
       containers:
       - name: echo-boilerplate-app
@@ -31,5 +29,4 @@ spec:
             memory: "1Gi"
             cpu: "500m"
             ephemeral-storage: "1Gi"
-            
 ---
